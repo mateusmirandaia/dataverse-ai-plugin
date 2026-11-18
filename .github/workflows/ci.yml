@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore
+        run: dotnet restore DataverseAiPlugin.sln
+
+      - name: Build
+        run: dotnet build DataverseAiPlugin.sln --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test DataverseAiPlugin.sln --configuration Release --no-build --logger "trx;LogFileName=results.trx"
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: tests/**/TestResults/*.trx
+
+      - name: Upload plugin assembly
+        uses: actions/upload-artifact@v4
+        with:
+          name: plugin-assembly
+          path: src/CaseEnrichment/bin/Release/net462/MM.Dataverse.CaseEnrichment.dll

@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- The Dataverse sandbox runs plugins on .NET Framework 4.6.2. -->
+    <TargetFramework>net462</TargetFramework>
+    <AssemblyName>MM.Dataverse.CaseEnrichment</AssemblyName>
+    <RootNamespace>MM.Dataverse.CaseEnrichment</RootNamespace>
+    <Version>1.0.0</Version>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Description>Dataverse plugin that classifies and summarizes new Cases with Azure OpenAI.</Description>
+  </PropertyGroup>
+
+  <!-- Plugin assemblies must be strong-named. The key is not committed; see README for how to create it. -->
+  <PropertyGroup Condition="Exists('$(MSBuildProjectDirectory)\CaseEnrichment.snk')">
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>CaseEnrichment.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CrmSdk.CoreAssemblies" Version="9.0.2.60" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Serialization" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="MM.Dataverse.CaseEnrichment.Tests" />
+    <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+  </ItemGroup>
+
+</Project>

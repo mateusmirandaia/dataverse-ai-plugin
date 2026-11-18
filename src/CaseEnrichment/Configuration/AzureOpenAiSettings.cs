@@ -3,6 +3,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Xml;
 using Microsoft.Xrm.Sdk;
 
 namespace MM.Dataverse.CaseEnrichment.Configuration
@@ -58,7 +59,7 @@ namespace MM.Dataverse.CaseEnrichment.Configuration
                     settings = (AzureOpenAiSettings)serializer.ReadObject(stream);
                 }
             }
-            catch (SerializationException)
+            catch (Exception ex) when (ex is SerializationException || ex is XmlException)
             {
                 throw new InvalidPluginExecutionException(
                     "Case enrichment secure configuration is not valid JSON.");

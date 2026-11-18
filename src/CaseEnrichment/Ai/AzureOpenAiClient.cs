@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Xml;
 using System.Threading;
 using Microsoft.Xrm.Sdk;
 using MM.Dataverse.CaseEnrichment.Configuration;
@@ -130,7 +131,7 @@ namespace MM.Dataverse.CaseEnrichment.Ai
             {
                 completion = Deserialize<ChatCompletionResponse>(ReadBody(response));
             }
-            catch (SerializationException ex)
+            catch (Exception ex) when (ex is SerializationException || ex is XmlException)
             {
                 throw new AiClientException("Azure OpenAI returned a response that could not be read.", ex);
             }

@@ -3,6 +3,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Xml;
 
 namespace MM.Dataverse.CaseEnrichment.Enrichment
 {
@@ -47,7 +48,7 @@ namespace MM.Dataverse.CaseEnrichment.Enrichment
                     return (EnrichmentPayload)serializer.ReadObject(stream);
                 }
             }
-            catch (SerializationException ex)
+            catch (Exception ex) when (ex is SerializationException || ex is XmlException)
             {
                 throw new FormatException("The model reply was not a valid JSON object.", ex);
             }

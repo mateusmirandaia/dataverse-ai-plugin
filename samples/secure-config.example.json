@@ -1,0 +1,6 @@
+{
+  "endpoint": "https://your-resource.openai.azure.com/",
+  "deployment": "your-deployment-name",
+  "apiKey": "your-azure-openai-key",
+  "apiVersion": "2024-10-21"
+}
